@@ -88,6 +88,9 @@ const options = {
 Functions in bridge return values are currently dropped — return plain data,
 not class instances with methods.
 
+`SANDBOX_GLOBALS` is a `Set` of every name a fresh sandbox already defines.
+Check generated names against it before installing them.
+
 ## TypeScript-checked rebinding
 
 `prepare()` infers the globals shape `G` from what you pass, and the

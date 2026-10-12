@@ -186,6 +186,9 @@ const result = await sandbox.run({
 The handler receives the raw arguments from sandbox code and must return
 plain serializable data. **Functions in return values are currently dropped.**
 
+`SANDBOX_GLOBALS` is a `Set` of every name a fresh sandbox already defines.
+Check generated names against it before installing them.
+
 ## Async context (`AsyncLocalStorage`)
 
 Sandboxed code can carry an ambient value across `await` points without

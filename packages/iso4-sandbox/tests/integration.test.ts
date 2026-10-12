@@ -19,7 +19,7 @@
 import * as http from 'node:http'
 import type { AddressInfo } from 'node:net'
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
-import { createSandbox as createRuntime } from '../src/index.js'
+import { createSandbox as createRuntime, SANDBOX_GLOBALS } from '../src/index.js'
 import type { Sandbox as Runtime } from '../src/types.js'
 
 // ── Shared runtime ─────────────────────────────────────────────────────────
@@ -32,6 +32,16 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await runtime?.dispose()
+})
+
+describe('SANDBOX_GLOBALS', () => {
+  test('matches the globals a fresh sandbox defines', async () => {
+    const result = await runtime.run({ code: 'export default Object.getOwnPropertyNames(globalThis)' })
+    expect(result.ok).toBe(true)
+    if (!result.ok)
+      return
+    expect([...(result.exports['default'] as string[])].sort()).toEqual([...SANDBOX_GLOBALS].sort())
+  })
 })
 
 // ── Phase 1: direct runtime.run() ─────────────────────────────────────────

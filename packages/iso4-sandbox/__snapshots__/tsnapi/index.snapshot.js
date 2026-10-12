@@ -4,3 +4,7 @@
 // #region Functions
 export async function createSandbox(_) {}
 // #endregion
+
+// #region Variables
+export var SANDBOX_GLOBALS /* const */
+// #endregion
